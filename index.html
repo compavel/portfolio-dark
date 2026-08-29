@@ -467,25 +467,25 @@
         <!-- Project 1: Komore Coffee -->
         <div class="project-card bg-dark-900/80 border border-white/10 hover:border-white/20 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 shadow-xl group cursor-pointer" onclick="openProjectModal('komore')">
           
-          <!-- Project Banner / Visual Mockup -->
-          <div class="h-48 bg-gradient-to-br from-amber-900/40 via-amber-800/20 to-dark-900 border-b border-white/10 p-6 flex flex-col justify-between relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            <div class="flex items-center justify-between z-10">
-              <span class="px-3 py-1 rounded-full bg-amber-950/80 text-amber-400 border border-amber-500/30 text-white font-mono text-[11px]">Web Development</span>
-              <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
-                <i data-lucide="coffee" class="w-4 h-4"></i>
-              </div>
+          <!-- Project Screenshots Gallery -->
+          <div class="h-56 bg-dark-850 border-b border-white/10 p-3 relative overflow-hidden">
+            <div class="grid grid-cols-2 gap-2 h-full">
+              <img src="img/projects/komore-home.png" alt="Komore Home" class="rounded-lg object-cover w-full h-full border border-white/10">
+              <img src="img/projects/komore-menu.png" alt="Menu Section" class="rounded-lg object-cover w-full h-full border border-white/10">
+              <img src="img/projects/komore-gallery.png" alt="Gallery" class="rounded-lg object-cover w-full h-full border border-white/10">
+              <img src="img/projects/komore-contact.png" alt="Contact" class="rounded-lg object-cover w-full h-full border border-white/10">
             </div>
-            <div class="z-10">
-              <p class="text-zinc-400 text-xs">Static Website &amp; Responsive Design</p>
-              <h3 class="text-white font-heading font-bold text-lg sm:text-xl mt-0.5">Komore Coffee - Cafe Website</h3>
+            <div class="absolute top-5 left-5 z-10">
+              <span class="px-3 py-1 rounded-full bg-amber-950/90 text-amber-400 border border-amber-500/30 text-white font-mono text-[11px] backdrop-blur-sm">Web Development</span>
             </div>
           </div>
 
           <!-- Project Details -->
           <div class="p-6 flex flex-col flex-grow justify-between gap-5">
             <div>
-              <p class="text-zinc-400 text-sm leading-relaxed">
+              <p class="text-zinc-400 text-xs mb-1">Static Website &amp; Responsive Design</p>
+              <h3 class="text-white font-heading font-bold text-lg sm:text-xl">Komore Coffee - Cafe Website</h3>
+              <p class="text-zinc-400 text-sm leading-relaxed mt-2">
                 Website promosi untuk cafe fiktif dengan desain warm &amp; earthy. Fitur meliputi menu interaktif dengan filter kategori, galeri suasana cafe, section About, lokasi, dan contact. Responsive design untuk mobile &amp; desktop.
               </p>
               
@@ -501,11 +501,11 @@
 
             <!-- Action Links -->
             <div class="flex items-center gap-3 pt-2 border-t border-white/5">
-              <a href="https://github.com/compavel/komore-coffee" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-colors">
+              <a href="https://github.com/compavel/komore-coffee" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-colors" onclick="event.stopPropagation()">
                 <i data-lucide="github" class="w-3.5 h-3.5 text-zinc-400"></i>
                 <span>Repository</span>
               </a>
-              <a href="https://kocoffee.netlify.app" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-white text-black text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-all">
+              <a href="https://kocoffee.netlify.app" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-white text-black text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-all" onclick="event.stopPropagation()">
                 <span>Live Demo</span>
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
               </a>
