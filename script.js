@@ -152,10 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'Fully responsive design'
       ],
       screenshots: [
-        { src: 'https://placehold.co/600x400/1a1a1a/amber?text=Komore+Home', alt: 'Komore Home' },
-        { src: 'https://placehold.co/600x400/1a1a1a/amber?text=Menu+Section', alt: 'Menu Section' },
-        { src: 'https://placehold.co/600x400/1a1a1a/amber?text=Gallery', alt: 'Gallery' },
-        { src: 'https://placehold.co/600x400/1a1a1a/amber?text=Contact', alt: 'Contact' }
+        { src: 'img/projects/komore-home.png', alt: 'Komore Home' },
+        { src: 'img/projects/komore-menu.png', alt: 'Menu Section' },
+        { src: 'img/projects/komore-gallery.png', alt: 'Gallery' },
+        { src: 'img/projects/komore-contact.png', alt: 'Contact' }
       ],
       links: [
         { type: 'github', url: 'https://github.com/compavel/komore-coffee', label: 'Repository' },
@@ -179,10 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'Dark theme UI'
       ],
       screenshots: [
-        { src: 'img/projects/home.png', alt: 'ScreenTime Home' },
-        { src: 'img/projects/search.png', alt: 'ScreenTime Search' },
-        { src: 'img/projects/detail.png', alt: 'ScreenTime Detail' },
-        { src: 'img/projects/watchlist.png', alt: 'ScreenTime Watchlist' }
+        { src: 'img/projects/screentime-home.png', alt: 'ScreenTime Home' },
+        { src: 'img/projects/screentime-search.png', alt: 'ScreenTime Search' },
+        { src: 'img/projects/screentime-detail.png', alt: 'ScreenTime Detail' },
+        { src: 'img/projects/screentime-watchlist.png', alt: 'ScreenTime Watchlist' }
       ],
       links: [
         { type: 'github', url: 'https://github.com/compavel/screentime', label: 'Repository' }
