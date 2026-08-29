@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       links: [
         { type: 'github', url: 'https://github.com/compavel/komore-coffee', label: 'Repository' },
-        { type: 'live', url: 'https://calm-duckanoo-4f250b.netlify.app', label: 'Live Demo' }
+        { type: 'live', url: 'https://kocoffee.netlify.app', label: 'Live Demo' }
       ]
     },
     screentime: {
