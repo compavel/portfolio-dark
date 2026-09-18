@@ -167,16 +167,18 @@ document.addEventListener('DOMContentLoaded', () => {
       titleBar: 'screentime',
       badge: 'Full-Stack Web App',
       category: 'Laravel + TMDB API + MySQL',
-      description: 'Aplikasi web full-stack untuk menemukan, menjelajahi, dan mengelola watchlist film & anime. Mengintegrasikan TMDB API untuk data real-time. Fitur: autentikasi user, search, browse by genre, detail movie, dan watchlist management dengan status tracking.',
-      techStack: ['Laravel 10', 'PHP', 'MySQL', 'Blade', 'Tailwind CSS', 'TMDB API', 'Docker'],
+      description: 'Aplikasi web full-stack untuk menemukan, menjelajahi, dan mengelola watchlist film & anime. Mengintegrasikan TMDB API untuk data real-time. Fitur: autentikasi user, search, browse by genre, detail movie, watchlist management, user ratings, dan personalized recommendations berdasarkan genre favorit.',
+      techStack: ['Laravel 10', 'PHP 8.3', 'MySQL', 'Blade', 'Tailwind CSS', 'TMDB API'],
       features: [
-        'Home page dengan trending movies & horizontal scroll',
+        'Home page dengan trending movies & horizontal scroll carousel',
         'Browse film berdasarkan genre',
         'Search real-time dengan debounce',
         'Detail film lengkap (cast, similar, rating)',
         'Watchlist management dengan status tracking',
+        'User ratings (1-5 stars)',
+        'Personalized "For You" recommendations berdasarkan genre',
         'Autentikasi user (login/register)',
-        'Dark theme UI'
+        'Dark theme UI, responsive design'
       ],
       screenshots: [
         { src: 'img/projects/screentime-home.png', alt: 'ScreenTime Home' },
@@ -185,7 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { src: 'img/projects/screentime-watchlist.png', alt: 'ScreenTime Watchlist' }
       ],
       links: [
-        { type: 'github', url: 'https://github.com/compavel/screentime', label: 'Repository' }
+        { type: 'github', url: 'https://github.com/compavel/screentime', label: 'Repository' },
+        { type: 'live', url: 'https://stime.gamer.gd', label: 'Live Demo' }
       ]
     }
   };
