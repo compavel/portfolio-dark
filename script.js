@@ -190,6 +190,36 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'github', url: 'https://github.com/compavel/screentime', label: 'Repository' },
         { type: 'live', url: 'https://stime.gamer.gd', label: 'Live Demo' }
       ]
+    },
+    ticketing: {
+      title: 'IT Ticketing System - Manajemen Laporan Gangguan',
+      titleBar: 'it-ticketing',
+      badge: 'Internal Helpdesk App',
+      category: 'Laravel 13 + MySQL + Blade',
+      description: 'Aplikasi internal untuk melaporkan & melacak gangguan IT (Wi-Fi, CCTV, printer) — terinspirasi dari pengalaman magang IT support di mana laporan masih lewat WhatsApp. Role-based access via Laravel Policy, status workflow dengan aturan "closed = final", komentar publik vs internal, assign/claim ticket, audit log aktivitas, search & filter, dan dashboard statistik. Dilengkapi 92 automated tests (PHPUnit).',
+      techStack: ['Laravel 13', 'PHP 8.4', 'MySQL', 'Blade', 'Tailwind CSS', 'Laravel Breeze', 'PHPUnit'],
+      features: [
+        '3 role (user / teknisi / admin) dengan authorization via Laravel Policy',
+        'Status workflow: open → in_progress → resolved → closed (closed = final)',
+        'Claim ticket (teknisi) & assign/reassign (admin) dengan conditional UPDATE anti race-condition',
+        'Komentar publik vs internal — komentar internal tersembunyi dari requester (server-side)',
+        'Search & filter (status, kategori, prioritas) + pagination',
+        'Dashboard statistik + antrian ticket belum ditugaskan',
+        'Audit log "Riwayat Aktivitas" (siapa, apa, kapan) di halaman ticket',
+        'Rate limiting brute-force di login & register',
+        '92 tests / 248 assertions, code style via Laravel Pint'
+      ],
+      screenshots: [
+        { src: 'img/projects/ticketing-dashboard.jpg', alt: 'Dashboard Admin' },
+        { src: 'img/projects/ticketing-tickets.jpg', alt: 'Daftar Ticket' },
+        { src: 'img/projects/ticketing-detail.jpg', alt: 'Detail Ticket (Staff)' },
+        { src: 'img/projects/ticketing-activity.jpg', alt: 'Riwayat Aktivitas' },
+        { src: 'img/projects/ticketing-categories.jpg', alt: 'Manajemen Kategori (Admin)' }
+      ],
+      links: [
+        { type: 'github', url: 'https://github.com/compavel/it-ticketing', label: 'Repository' },
+        { type: 'live', url: 'https://github.com/compavel/it-ticketing#readme', label: 'Dokumentasi & Screenshots' }
+      ]
     }
   };
 

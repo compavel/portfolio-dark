@@ -580,6 +580,57 @@
 
           </div>
 
+          <!-- Project 3: IT Ticketing System -->
+          <div class="bg-dark-900 border border-white/10 hover:border-white/20 rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 shadow-xl group cursor-pointer" onclick="openProjectModal('ticketing')">
+            
+            <!-- Project Screenshots Gallery -->
+            <div class="h-64 bg-dark-850 border-b border-white/10 p-4 relative overflow-hidden">
+              <div class="grid grid-cols-2 gap-2 h-full">
+                <img src="img/projects/ticketing-dashboard.jpg" alt="Dashboard Admin" class="rounded-xl object-cover w-full h-full border border-white/10">
+                <img src="img/projects/ticketing-tickets.jpg" alt="Daftar Ticket" class="rounded-xl object-cover w-full h-full border border-white/10">
+                <img src="img/projects/ticketing-detail.jpg" alt="Detail Ticket" class="rounded-xl object-cover w-full h-full border border-white/10">
+                <img src="img/projects/ticketing-activity.jpg" alt="Riwayat Aktivitas" class="rounded-xl object-cover w-full h-full border border-white/10">
+              </div>
+              <div class="absolute top-6 left-6 z-10">
+                <span class="px-3 py-1.5 rounded-full bg-sky-950/90 text-sky-400 border border-sky-500/30 text-xs font-semibold backdrop-blur-sm">Internal Helpdesk App</span>
+              </div>
+            </div>
+
+            <!-- Project Details -->
+            <div class="p-6 flex flex-col flex-grow justify-between gap-5">
+              <div>
+                <p class="text-zinc-400 text-xs mb-2">Laravel 13 + MySQL + Blade</p>
+                <h3 class="text-white font-heading font-bold text-xl mb-3">IT Ticketing System - Manajemen Laporan Gangguan</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">
+                  Aplikasi internal untuk melaporkan & melacak gangguan IT (Wi-Fi, CCTV, printer). Role-based access via Laravel Policy (user/teknisi/admin), status workflow open &rarr; closed dengan aturan "closed = final", komentar publik vs internal, assign/claim ticket, audit log aktivitas, search &amp; filter, dan dashboard statistik. Dilengkapi 92 automated tests.
+                </p>
+                
+                <!-- Tech Stack Tags -->
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="px-3 py-1 rounded-lg bg-dark-800 border border-white/10 text-xs text-zinc-300 font-medium">Laravel 13</span>
+                  <span class="px-3 py-1 rounded-lg bg-dark-800 border border-white/10 text-xs text-zinc-300 font-medium">PHP 8.4</span>
+                  <span class="px-3 py-1 rounded-lg bg-dark-800 border border-white/10 text-xs text-zinc-300 font-medium">MySQL</span>
+                  <span class="px-3 py-1 rounded-lg bg-dark-800 border border-white/10 text-xs text-zinc-300 font-medium">Blade</span>
+                  <span class="px-3 py-1 rounded-lg bg-dark-800 border border-white/10 text-xs text-zinc-300 font-medium">Tailwind CSS</span>
+                  <span class="px-3 py-1 rounded-lg bg-dark-800 border border-white/10 text-xs text-zinc-300 font-medium">PHPUnit</span>
+                </div>
+              </div>
+
+              <!-- Action Links -->
+              <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+                <a href="https://github.com/compavel/it-ticketing" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium flex items-center justify-center gap-2 transition-colors" onclick="event.stopPropagation()">
+                  <i data-lucide="github" class="w-4 h-4 text-zinc-400"></i>
+                  <span>Repository</span>
+                </a>
+                <a href="https://github.com/compavel/it-ticketing#readme" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 px-4 rounded-xl bg-accent-500 text-white text-sm font-semibold flex items-center justify-center gap-2 hover:bg-accent-600 transition-all shadow-lg shadow-accent-500/25" onclick="event.stopPropagation()">
+                  <span>Lihat Dokumentasi</span>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </section>
