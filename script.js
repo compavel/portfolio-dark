@@ -220,6 +220,32 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'github', url: 'https://github.com/compavel/it-ticketing', label: 'Repository' },
         { type: 'live', url: 'https://github.com/compavel/it-ticketing#readme', label: 'Dokumentasi & Screenshots' }
       ]
+    },
+    aqw: {
+      title: 'AQW Guide Hub - Kumpulan Guide AdventureQuest Worlds',
+      titleBar: 'aqw-guide-hub',
+      badge: 'Curated Content Hub',
+      category: 'Static HTML + Tailwind CSS v4 + Vanilla JS',
+      description: 'Situs agregasi guide game AdventureQuest Worlds. Guide AQW tersebar di Reddit, wiki resmi, forum dan situs lama — situs ini mengumpulkannya lalu dirangkum ulang menjadi 19 guide terkurasi dalam 7 kategori. Setiap rangkuman ditulis orisinal dalam dua bahasa (ID/EN), lengkap dengan sumber asli yang dicantumkan di halaman detail. Tanpa framework & tanpa build step, sehingga ringan dan mudah di-deploy sebagai situs statis.',
+      techStack: ['HTML5', 'Tailwind CSS v4', 'Vanilla JavaScript', 'Netlify'],
+      features: [
+        '19 guide terkurasi dalam 7 kategori (New Player, Class, Gear, Item, Farming, Reputation, Resources)',
+        'Rangkuman orisinal bilingual ID/EN — toggle bahasa tersimpan di localStorage',
+        'Pencarian instan + filter kategori yang bisa dipakai bersamaan',
+        'Halaman detail: section bernomor, Daftar Isi dengan scrollspy, dan progress bar baca',
+        'Kartu hanya link internal — sumber asli dibuka dari halaman detail (mencegah pembaca loncat keluar)',
+        'Tanpa framework & tanpa build step: HTML + JS biasa, ringan & mudah dipelihara',
+        'Responsive: TOC sidebar sticky di desktop, inline di mobile'
+      ],
+      screenshots: [
+        { src: 'img/projects/aqw-home.jpg', alt: 'Homepage' },
+        { src: 'img/projects/aqw-library.jpg', alt: 'Guide Library' },
+        { src: 'img/projects/aqw-detail.jpg', alt: 'Detail Guide & TOC' }
+      ],
+      links: [
+        { type: 'github', url: 'https://github.com/compavel/aqw-guide-hub', label: 'Repository' },
+        { type: 'live', url: 'https://aqw-guide-hub.netlify.app', label: 'Live Demo' }
+      ]
     }
   };
 
