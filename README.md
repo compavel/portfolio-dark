@@ -1,54 +1,132 @@
-# Dark Luxury Portfolio Website Template
+# Portofolio — Tegar Raditya Permana Putra
 
-Template website portofolio modern bertema *dark minimalist* yang dirancang khusus untuk Web Developer / Software Engineer, disesuaikan dengan template desain modern (Hero, About, Skills terpisah jujur, Showcase Projects, dan Contact).
+Website portofolio statis untuk **IT Support & Web Developer**. Dibangun tanpa framework dan tanpa build step: satu file HTML, satu file CSS, satu file JavaScript.
 
-## 🚀 Fitur Utama
-
-1. **Floating Pill Header**: Menu navigasi modern dengan backdrop blur, indikator aktif otomatis saat scroll, dan menu mobile responsif.
-2. **Hero Section**: Badge ketersediaan kerja (*Open to Work* dengan indikator hijau berdenyut), headline tegas, tombol Download CV, serta tautan ke LinkedIn & GitHub.
-3. **About Me**: Ringkasan 2–3 kalimat esensial, 3 pilar pendekatan (*My Approach*), dan counter pencapaian.
-4. **Categorized Skills**:
-   - **Core & Proficient**: Skill yang dikuasai dengan baik (HTML, CSS, Tailwind, JS, Laravel, PHP, MySQL).
-   - **Familiar & Explored**: Skill yang pernah dipelajari/dicoba (React.js, Node.js, REST API, Docker, Python).
-   - **Tools & Workflow**: Alat kerja sehari-hari (Git, GitHub, VS Code, Postman, Figma, Vercel).
-5. **Featured Projects**: 4 kartu proyek komprehensif lengkap dengan deskripsi ("apa & untuk siapa"), tech stack pills, serta tombol Live Demo & GitHub.
-6. **Contact Section ("Let's Talk")**: Email dengan fitur **Copy to Clipboard** 1-klik, link profil sosial, dan formulir kirim pesan cepat.
+Live: <https://portonoiree.netlify.app>
 
 ---
 
-## 🛠️ Cara Menjalankan & Menguji Secara Lokal
+## Kenapa desainnya seperti ini
 
-Cukup buka file `index.html` langsung di browser favorit kamu (Google Chrome, Edge, Firefox, Brave):
-- Dobel klik file `index.html` di File Explorer, atau
-- Gunakan ekstensi *Live Server* di VS Code.
+Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tipografi besar, dan satu warna aksen yang agresif. Alasannya bukan sekadar gaya:
 
----
-
-## ✏️ Panduan Kustomisasi (Mudah Diedit)
-
-Semua konten utama berada di file [`index.html`](index.html):
-
-1. **Mengganti Nama & Headline**:
-   - Cari teks `Radit Pratama` dan ganti dengan nama lengkap kamu.
-   - Ganti inisial logo `RP` dengan inisial nama kamu.
-2. **Mengganti Foto Profil**:
-   - Pada bagian `<!-- Hero Visual/Portrait (Right) -->`, kamu bisa mengganti blok placeholder dengan tag gambar:
-     ```html
-     <img src="assets/foto-kamu.jpg" alt="Foto Profil" class="w-full h-full object-cover rounded-2xl">
-     ```
-3. **Menambahkan File CV / Resume**:
-   - Buat folder `assets/` dan letakkan file PDF CV kamu dengan nama `Radit_Pratama_CV.pdf` (atau sesuaikan link di tag `<a href="assets/nama_cv.pdf">`).
-4. **Mengubah Link Sosial & Email**:
-   - Ganti `https://linkedin.com/in/...` dan `https://github.com/...` dengan URL akun aslimu.
-   - Ganti `radit.developer@example.com` di bagian email dan di file [`script.js`](script.js).
-5. **Mengubah Proyek**:
-   - Sesuaikan judul, deskripsi, badge teknologi, dan URL demo/repo di setiap kartu proyek pada section `#projects`.
+- Mayoritas portofolio developer terlihat sama — gelap, gradient ungu-biru, kartu membulat. Gaya brutalist membuat halaman ini langsung dikenali.
+- Strukturnya sengaja dibuat sederhana: recruiter bisa menemukan nama, peran, CV, dan empat proyek dalam beberapa detik.
+- Semua dekorasi tetap berfungsi: angka IPK dan jumlah test adalah bukti nyata, bukan angka karangan.
 
 ---
 
-## 🌐 Cara Publikasi / Deploy Gratis
+## Fitur
 
-Website ini berbasis HTML, CSS, dan JS statis sehingga dapat di-host secara gratis 100%:
-- **Vercel**: Cukup drag-and-drop folder ini ke [vercel.com](https://vercel.com) atau hubungkan repository GitHub.
-- **GitHub Pages**: Push ke repository GitHub kamu lalu aktifkan GitHub Pages di menu Settings > Pages.
-- **Netlify**: Drag-and-drop folder ke [app.netlify.com/drop](https://app.netlify.com/drop).
+**Konten**
+- Hero dengan status ketersediaan kerja dan tombol unduh CV.
+- Statistik singkat: IPK, jumlah automated test, jumlah proyek, fokus teknologi.
+- Tentang: ringkasan pengalaman + riwayat kerja dan pendidikan.
+- Proyek: satu proyek utama (IT Ticketing System) dan tiga proyek pendukung, semuanya tertaut ke demo atau repo.
+- Kontak: email (klik untuk salin), WhatsApp, dan GitHub.
+
+**Interaksi & animasi**
+- Marquee skill berjalan, berhenti saat di-hover.
+- Headline masuk berurutan saat halaman dibuka.
+- Section muncul saat masuk viewport (`IntersectionObserver`).
+- Angka statistik menghitung naik saat terlihat.
+- Kartu proyek sedikit miring mengikuti posisi kursor (hanya perangkat dengan pointer presisi).
+- Progress bar scroll di bawah navbar dan penanda nav aktif.
+- Tombol salin email dengan notifikasi toast.
+- Menu mobile dengan tombol burger (buka/tutup, tutup otomatis saat link diklik).
+
+**Aksesibilitas**
+- Semua animasi dimatikan otomatis saat pengguna mengaktifkan `prefers-reduced-motion`.
+- Ada tautan "Langsung ke konten" untuk pengguna keyboard.
+- `:focus-visible` diberi outline yang jelas.
+- Tombol burger memakai `aria-expanded` dan `aria-controls`; toast memakai `aria-live`.
+- Kontras teks dijaga di atas ambang WCAG untuk ukuran teksnya.
+
+**Performa**
+- Tanpa framework, tanpa library animasi. Total CSS + JS di bawah 30 KB (belum termasuk font).
+- Screenshot proyek dikompres ulang (`*-card.jpg`) dan dimuat dengan `loading="lazy"`.
+- Font dimuat dari Google Fonts dengan `preconnect` dan hanya memakai dua keluarga.
+
+---
+
+## Tech stack
+
+| Bagian | Teknologi |
+|---|---|
+| Markup | HTML5 semantik |
+| Styling | CSS3 (custom properties, grid, `clamp()`, `aspect-ratio`) |
+| Interaksi | Vanilla JavaScript (ES5-safe, tanpa dependency) |
+| Font | Space Grotesk, JetBrains Mono |
+| Hosting | Netlify (auto-deploy dari GitHub) |
+
+---
+
+## Struktur file
+
+```
+.
+├── index.html                  # seluruh konten halaman
+├── styles.css                  # token warna, layout, animasi, responsive
+├── script.js                   # reveal, counter, tilt, salin email, menu mobile
+├── assets/
+│   ├── profile.jpg             # foto potret (4:5, sudah dikompres)
+│   ├── CV_Tegar_Raditya_Permana_Putra.pdf
+│   └── Tegar_Raditya_CV.pdf
+└── img/projects/               # screenshot proyek
+    ├── ticketing-card.jpg
+    ├── screentime-card.jpg
+    ├── komore-card.jpg
+    ├── aqw-home.jpg
+    └── ... (screenshot tambahan)
+```
+
+---
+
+## Menjalankan secara lokal
+
+Cukup buka `index.html` di browser. Kalau perlu server lokal (disarankan agar path dan font berperilaku sama seperti produksi):
+
+```bash
+# pakai PHP
+php -S 127.0.0.1:8000
+
+# atau pakai Python
+python -m http.server 8000
+```
+
+Lalu buka <http://127.0.0.1:8000>.
+
+---
+
+## Kustomisasi
+
+**Ganti foto** — timpa `assets/profile.jpg`. Rasio yang dipakai 4:5 (misal 720×900). Foto ditampilkan grayscale dan berubah warna saat kursor mendekat; kalau tidak ingin efek itu, hapus `filter: grayscale(1)` pada `.photo img` di `styles.css`.
+
+**Ganti CV** — timpa file di `assets/` dan sesuaikan `href` pada tombol "Unduh CV" di `index.html`.
+
+**Tambah proyek** — duplikasi satu blok `<a class="card">` di dalam `.proj-grid`. Tambahkan `data-tilt` kalau ingin efek miring.
+
+**Ubah warna** — semua warna ada di `:root` pada `styles.css` (`--paper`, `--ink`, `--orange`, `--lime`).
+
+---
+
+## Deploy
+
+Repo ini terhubung ke Netlify. Setiap push ke `master` otomatis deploy. Untuk hosting lain, seluruh isi folder ini bisa diunggah apa adanya (tidak ada proses build).
+
+---
+
+## Catatan teknis
+
+- **Kenapa tidak pakai Tailwind di sini?** Halaman ini hanya satu halaman dengan gaya yang sangat spesifik. CSS biasa lebih ringan (tanpa CDN atau build step) dan lebih mudah dibaca orang yang membuka source code. Tailwind tetap dipakai di proyek Laravel lain.
+- **Kenapa animasi ditulis manual?** Kebutuhannya kecil dan terbatas, jadi `IntersectionObserver` + CSS transition sudah cukup. Menambah library animasi hanya akan menambah beban tanpa manfaat.
+- **Pengaman konten:** fungsi `sweep()` di `script.js` menampilkan elemen yang sudah masuk viewport kalau `IntersectionObserver` gagal, sehingga konten tidak pernah tertinggal dalam keadaan transparan.
+
+---
+
+## Author
+
+**Tegar Raditya Permana Putra**
+IT Support & Web Developer — Purwokerto, Jawa Tengah
+Email: radityategar1518@gmail.com
+GitHub: <https://github.com/compavel>

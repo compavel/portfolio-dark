@@ -1,328 +1,256 @@
-// Inisialisasi icon Lucide
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.lucide) {
-    window.lucide.createIcons();
+/* ==========================================================================
+   Tegar Raditya — Brutalist Motion
+   Vanilla JS, tanpa dependency. Semua efek menghormati prefers-reduced-motion.
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------------------------------------------------------- *
+   * 1. Progress bar scroll
+   * ---------------------------------------------------------------- */
+  var bar = document.getElementById('scrollBar');
+
+  function updateProgress() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
   }
 
-  // Set current year di footer
-  const currentYearEl = document.getElementById('currentYear');
-  if (currentYearEl) {
-    currentYearEl.textContent = new Date().getFullYear();
-  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
 
-  // Mobile Menu Toggle
-  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-  const mobileDrawer = document.getElementById('mobileDrawer');
-  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+  /* ---------------------------------------------------------------- *
+   * 2. Reveal saat masuk viewport
+   *    IntersectionObserver + safety net `sweep()` supaya konten
+   *    tidak pernah tertinggal invisible kalau observer gagal.
+   * ---------------------------------------------------------------- */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
 
-  let isDrawerOpen = false;
-
-  function toggleMobileMenu() {
-    isDrawerOpen = !isDrawerOpen;
-    if (isDrawerOpen) {
-      mobileDrawer.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
-      mobileDrawer.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
-    } else {
-      mobileDrawer.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
-      mobileDrawer.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+  function sweep() {
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    for (var i = revealEls.length - 1; i >= 0; i--) {
+      var el = revealEls[i];
+      if (el.classList.contains('in')) {
+        revealEls.splice(i, 1);
+        continue;
+      }
+      if (el.getBoundingClientRect().top < vh * 0.95) {
+        el.classList.add('in');
+        revealEls.splice(i, 1);
+      }
     }
   }
 
-  if (mobileMenuBtn && mobileDrawer) {
-    mobileMenuBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleMobileMenu();
-    });
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+    revealEls = [];
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
 
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        if (isDrawerOpen) toggleMobileMenu();
+    revealEls.forEach(function (el) { io.observe(el); });
+
+    window.addEventListener('load', sweep, { once: true });
+
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        sweep();
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
+  /* ---------------------------------------------------------------- *
+   * 3. Counter angka
+   * ---------------------------------------------------------------- */
+  function animateCount(el) {
+    var target = parseFloat(el.dataset.to);
+    var decimals = parseInt(el.dataset.dec || '0', 10);
+
+    if (reduce) {
+      el.textContent = target.toFixed(decimals);
+      return;
+    }
+
+    var start = performance.now();
+    var duration = 900;
+
+    function step(now) {
+      var progress = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = (target * eased).toFixed(decimals);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  var counters = document.querySelectorAll('.count');
+
+  if (!('IntersectionObserver' in window)) {
+    counters.forEach(animateCount);
+  } else {
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+
+    counters.forEach(function (counter) { counterObserver.observe(counter); });
+  }
+
+  /* ---------------------------------------------------------------- *
+   * 4. Nav link aktif mengikuti section
+   * ---------------------------------------------------------------- */
+  var navLinks = document.querySelectorAll('.nav-link');
+  var trackedSections = ['about', 'work']
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && trackedSections.length) {
+    var navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(function (link) {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+
+    trackedSections.forEach(function (section) { navObserver.observe(section); });
+  }
+
+  /* ---------------------------------------------------------------- *
+   * 5. Tilt kartu proyek (hanya perangkat dengan pointer presisi)
+   * ---------------------------------------------------------------- */
+  var hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (hasFinePointer && !reduce) {
+    document.querySelectorAll('[data-tilt]').forEach(function (card) {
+      var frame = null;
+      var tiltX = 0;
+      var tiltY = 0;
+
+      card.addEventListener('mousemove', function (event) {
+        var rect = card.getBoundingClientRect();
+        tiltX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+        tiltY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+
+        if (frame) return;
+        frame = requestAnimationFrame(function () {
+          card.style.transform =
+            'translate(3px, 3px) perspective(900px) ' +
+            'rotateX(' + (-tiltY * 2.2).toFixed(2) + 'deg) ' +
+            'rotateY(' + (tiltX * 2.2).toFixed(2) + 'deg)';
+          frame = null;
+        });
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+        if (frame) {
+          cancelAnimationFrame(frame);
+          frame = null;
+        }
       });
     });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (isDrawerOpen && !mobileDrawer.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        toggleMobileMenu();
-      }
-    });
   }
 
-  // Active Nav Link Spy on Scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  /* ---------------------------------------------------------------- *
+   * 6. Salin email + toast
+   * ---------------------------------------------------------------- */
+  var toast = document.getElementById('toast');
+  var toastTimer = null;
 
-  function highlightNavigation() {
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-
-    sections.forEach(current => {
-      const sectionHeight = current.offsetHeight;
-      const sectionTop = current.offsetTop - 180;
-      const sectionId = current.getAttribute('id');
-
-      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
-          }
-        });
-      }
-    });
-  }
-
-  window.addEventListener('scroll', highlightNavigation, { passive: true });
-
-  // Copy Email Functionality
-  const copyEmailBtn = document.getElementById('copyEmailBtn');
-  const emailTextEl = document.getElementById('emailText');
-
-  if (copyEmailBtn && emailTextEl) {
-    copyEmailBtn.addEventListener('click', async () => {
-      const email = emailTextEl.innerText.trim();
-      try {
-        await navigator.clipboard.writeText(email);
-        showToast('Email (radityategar1518@gmail.com) berhasil disalin! 📋');
-      } catch (err) {
-        // Fallback jika browser memblokir clipboard API
-        const textarea = document.createElement('textarea');
-        textarea.value = email;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast('Email berhasil disalin! 📋');
-      }
-    });
-  }
-
-  // Contact Form Submission (Mailto Trigger to radityategar1518@gmail.com + Toast)
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-
-      const subject = encodeURIComponent(`Peluang Kerja / Kontak dari ${name}`);
-      const body = encodeURIComponent(`Halo Tegar,\n\nNama/Perusahaan: ${name}\nEmail: ${email}\n\nPesan:\n${message}`);
-
-      // Buka aplikasi email default ke radityategar1518@gmail.com
-      window.location.href = `mailto:radityategar1518@gmail.com?subject=${subject}&body=${body}`;
-
-      showToast('Membuka aplikasi email... Terima kasih!');
-      contactForm.reset();
-    });
-  }
-
-  // Toast Notification Helper
-  let toastTimeout;
   function showToast(message) {
-    const toast = document.getElementById('toastNotification');
-    const toastMessage = document.getElementById('toastMessage');
-    if (!toast || !toastMessage) return;
-
-    toastMessage.textContent = message;
-    toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-    toast.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-      toast.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-      toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-    }, 3500);
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
   }
 
-  // Project Modal Data
-  const projectData = {
-    komore: {
-      title: 'Komore Coffee - Cafe Website',
-      titleBar: 'komore-coffee',
-      badge: 'Web Development',
-      category: 'Static Website & Responsive Design',
-      description: 'Website promosi untuk cafe fiktif dengan desain warm & earthy. Fitur meliputi menu interaktif dengan filter kategori, galeri suasana cafe, section About, lokasi, dan contact. Responsive design untuk mobile & desktop.',
-      techStack: ['HTML5', 'Tailwind CSS', 'JavaScript', 'Lucide Icons', 'Netlify'],
-      features: [
-        'Menu interaktif dengan filter kategori',
-        'Galeri suasana cafe',
-        'Section About & Lokasi',
-        'Contact form',
-        'Fully responsive design'
-      ],
-      screenshots: [
-        { src: 'img/projects/komore-home.png', alt: 'Komore Home' },
-        { src: 'img/projects/komore-menu.png', alt: 'Menu Section' },
-        { src: 'img/projects/komore-gallery.png', alt: 'Gallery' },
-        { src: 'img/projects/komore-contact.png', alt: 'Contact' }
-      ],
-      links: [
-        { type: 'github', url: 'https://github.com/compavel/komore-coffee', label: 'Repository' },
-        { type: 'live', url: 'https://kocoffee.netlify.app', label: 'Live Demo' }
-      ]
-    },
-    screentime: {
-      title: 'ScreenTime - Movie & Anime Watchlist',
-      titleBar: 'screentime',
-      badge: 'Full-Stack Web App',
-      category: 'Laravel + TMDB API + MySQL',
-      description: 'Aplikasi web full-stack untuk menemukan, menjelajahi, dan mengelola watchlist film & anime. Mengintegrasikan TMDB API untuk data real-time. Fitur: autentikasi user, search, browse by genre, detail movie, watchlist management, user ratings, dan personalized recommendations berdasarkan genre favorit.',
-      techStack: ['Laravel 10', 'PHP 8.3', 'MySQL', 'Blade', 'Tailwind CSS', 'TMDB API'],
-      features: [
-        'Home page dengan trending movies & horizontal scroll carousel',
-        'Browse film berdasarkan genre',
-        'Search real-time dengan debounce',
-        'Detail film lengkap (cast, similar, rating)',
-        'Watchlist management dengan status tracking',
-        'User ratings (1-5 stars)',
-        'Personalized "For You" recommendations berdasarkan genre',
-        'Autentikasi user (login/register)',
-        'Dark theme UI, responsive design'
-      ],
-      screenshots: [
-        { src: 'img/projects/screentime-home.png', alt: 'ScreenTime Home' },
-        { src: 'img/projects/screentime-search.png', alt: 'ScreenTime Search' },
-        { src: 'img/projects/screentime-detail.png', alt: 'ScreenTime Detail' },
-        { src: 'img/projects/screentime-watchlist.png', alt: 'ScreenTime Watchlist' }
-      ],
-      links: [
-        { type: 'github', url: 'https://github.com/compavel/screentime', label: 'Repository' },
-        { type: 'live', url: 'https://stime.gamer.gd', label: 'Live Demo' }
-      ]
-    },
-    ticketing: {
-      title: 'IT Ticketing System - Manajemen Laporan Gangguan',
-      titleBar: 'it-ticketing',
-      badge: 'Internal Helpdesk App',
-      category: 'Laravel 13 + MySQL + Blade',
-      description: 'Aplikasi internal untuk melaporkan & melacak gangguan IT (Wi-Fi, CCTV, printer) — terinspirasi dari pengalaman magang IT support di mana laporan masih lewat WhatsApp. Role-based access via Laravel Policy, status workflow dengan aturan "closed = final", komentar publik vs internal, assign/claim ticket, audit log aktivitas, search & filter, dan dashboard statistik. Dilengkapi 92 automated tests (PHPUnit).',
-      techStack: ['Laravel 13', 'PHP 8.4', 'MySQL', 'Blade', 'Tailwind CSS', 'Laravel Breeze', 'PHPUnit'],
-      features: [
-        '3 role (user / teknisi / admin) dengan authorization via Laravel Policy',
-        'Status workflow: open → in_progress → resolved → closed (closed = final)',
-        'Claim ticket (teknisi) & assign/reassign (admin) dengan conditional UPDATE anti race-condition',
-        'Komentar publik vs internal — komentar internal tersembunyi dari requester (server-side)',
-        'Search & filter (status, kategori, prioritas) + pagination',
-        'Dashboard statistik + antrian ticket belum ditugaskan',
-        'Audit log "Riwayat Aktivitas" (siapa, apa, kapan) di halaman ticket',
-        'Rate limiting brute-force di login & register',
-        '92 tests / 248 assertions, code style via Laravel Pint'
-      ],
-      screenshots: [
-        { src: 'img/projects/ticketing-dashboard.jpg', alt: 'Dashboard Admin' },
-        { src: 'img/projects/ticketing-tickets.jpg', alt: 'Daftar Ticket' },
-        { src: 'img/projects/ticketing-detail.jpg', alt: 'Detail Ticket (Staff)' },
-        { src: 'img/projects/ticketing-activity.jpg', alt: 'Riwayat Aktivitas' },
-        { src: 'img/projects/ticketing-categories.jpg', alt: 'Manajemen Kategori (Admin)' }
-      ],
-      links: [
-        { type: 'github', url: 'https://github.com/compavel/it-ticketing', label: 'Repository' },
-        { type: 'live', url: 'https://github.com/compavel/it-ticketing#readme', label: 'Dokumentasi & Screenshots' }
-      ]
-    },
-    aqw: {
-      title: 'AQW Guide Hub - Kumpulan Guide AdventureQuest Worlds',
-      titleBar: 'aqw-guide-hub',
-      badge: 'Curated Content Hub',
-      category: 'Static HTML + Tailwind CSS v4 + Vanilla JS',
-      description: 'Situs agregasi guide game AdventureQuest Worlds. Guide AQW tersebar di Reddit, wiki resmi, forum dan situs lama — situs ini mengumpulkannya lalu dirangkum ulang menjadi 19 guide terkurasi dalam 7 kategori. Setiap rangkuman ditulis orisinal dalam dua bahasa (ID/EN), lengkap dengan sumber asli yang dicantumkan di halaman detail. Tanpa framework & tanpa build step, sehingga ringan dan mudah di-deploy sebagai situs statis.',
-      techStack: ['HTML5', 'Tailwind CSS v4', 'Vanilla JavaScript', 'Netlify'],
-      features: [
-        '19 guide terkurasi dalam 7 kategori (New Player, Class, Gear, Item, Farming, Reputation, Resources)',
-        'Rangkuman orisinal bilingual ID/EN — toggle bahasa tersimpan di localStorage',
-        'Pencarian instan + filter kategori yang bisa dipakai bersamaan',
-        'Halaman detail: section bernomor, Daftar Isi dengan scrollspy, dan progress bar baca',
-        'Kartu hanya link internal — sumber asli dibuka dari halaman detail (mencegah pembaca loncat keluar)',
-        'Tanpa framework & tanpa build step: HTML + JS biasa, ringan & mudah dipelihara',
-        'Responsive: TOC sidebar sticky di desktop, inline di mobile'
-      ],
-      screenshots: [
-        { src: 'img/projects/aqw-home.jpg', alt: 'Homepage' },
-        { src: 'img/projects/aqw-library.jpg', alt: 'Guide Library' },
-        { src: 'img/projects/aqw-detail.jpg', alt: 'Detail Guide & TOC' }
-      ],
-      links: [
-        { type: 'github', url: 'https://github.com/compavel/aqw-guide-hub', label: 'Repository' },
-        { type: 'live', url: 'https://aqw-guide-hub.netlify.app', label: 'Live Demo' }
-      ]
-    }
-  };
+  var copyButton = document.getElementById('copyEmail');
 
-  // Open Project Modal
-  window.openProjectModal = function(projectId) {
-    const modal = document.getElementById('projectModal');
-    const content = document.getElementById('modalContent');
-    const data = projectData[projectId];
-    if (!data || !modal || !content) return;
+  if (copyButton) {
+    copyButton.addEventListener('click', function () {
+      var email = copyButton.dataset.email;
 
-    // Fill data
-    document.getElementById('modalTitleBar').textContent = data.titleBar;
-    document.getElementById('modalBadge').textContent = data.badge;
-    document.getElementById('modalCategory').textContent = data.category;
-    document.getElementById('modalProjectTitle').textContent = data.title;
-    document.getElementById('modalDescription').textContent = data.description;
-
-    // Screenshots
-    const screenshotsEl = document.getElementById('modalScreenshots');
-    screenshotsEl.innerHTML = data.screenshots.map(s => 
-      `<img src="${s.src}" alt="${s.alt}" class="rounded-xl object-cover w-full h-40 sm:h-48 border border-white/10">`
-    ).join('');
-
-    // Tech Stack
-    const techEl = document.getElementById('modalTechStack');
-    techEl.innerHTML = data.techStack.map(t => 
-      `<span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-zinc-300 text-xs">${t}</span>`
-    ).join('');
-
-    // Features
-    const featuresEl = document.getElementById('modalFeatures');
-    featuresEl.innerHTML = data.features.map(f => 
-      `<li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0"></i><span>${f}</span></li>`
-    ).join('');
-
-    // Links
-    const linksEl = document.getElementById('modalLinks');
-    linksEl.innerHTML = data.links.map(l => {
-      if (l.type === 'github') {
-        return `<a href="${l.url}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-medium flex items-center justify-center gap-2 transition-colors"><i data-lucide="github" class="w-4 h-4 text-zinc-400"></i><span>${l.label}</span></a>`;
+      /* Fallback untuk browser/konteks yang memblokir Clipboard API */
+      function legacyCopy() {
+        var field = document.createElement('textarea');
+        field.value = email;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.top = '-1000px';
+        document.body.appendChild(field);
+        field.select();
+        var copied = false;
+        try { copied = document.execCommand('copy'); } catch (err) { copied = false; }
+        document.body.removeChild(field);
+        return copied;
       }
-      return `<a href="${l.url}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 px-4 rounded-xl bg-white text-black text-xs font-semibold flex items-center justify-center gap-2 hover:bg-zinc-200 transition-all"><span>${l.label}</span><i data-lucide="external-link" class="w-4 h-4"></i></a>`;
-    }).join('');
 
-    // Show modal
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
+      function done() {
+        showToast('email disalin');
+      }
 
-    // Animate in
-    requestAnimationFrame(() => {
-      content.classList.remove('scale-95', 'opacity-0');
-      content.classList.add('scale-100', 'opacity-100');
+      function fallback() {
+        if (legacyCopy()) {
+          done();
+        } else {
+          window.location.href = 'mailto:' + email;
+        }
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(done).catch(fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+
+  /* ---------------------------------------------------------------- *
+   * 7. Menu mobile
+   * ---------------------------------------------------------------- */
+  var burger = document.getElementById('burger');
+  var mobileMenu = document.getElementById('mobileMenu');
+
+  if (burger && mobileMenu) {
+    burger.addEventListener('click', function () {
+      var isOpen = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!isOpen));
+      mobileMenu.classList.toggle('open', !isOpen);
     });
 
-    // Re-init lucide icons
-    if (window.lucide) lucide.createIcons();
-  };
+    mobileMenu.addEventListener('click', function (event) {
+      if (event.target.closest('a')) {
+        burger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+      }
+    });
 
-  // Close Project Modal
-  window.closeProjectModal = function() {
-    const modal = document.getElementById('projectModal');
-    const content = document.getElementById('modalContent');
-    if (!modal || !content) return;
-
-    content.classList.add('scale-95', 'opacity-0');
-    content.classList.remove('scale-100', 'opacity-100');
-
-    setTimeout(() => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.body.style.overflow = '';
-    }, 200);
-  };
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') window.closeProjectModal();
-  });
-});
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        burger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+        burger.focus();
+      }
+    });
+  }
+})();
