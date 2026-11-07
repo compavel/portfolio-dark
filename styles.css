@@ -611,6 +611,7 @@ h2 {
   object-fit: cover;
   transition: transform .6s cubic-bezier(.2, .7, .3, 1);
 }
+.feature-media img.shot-top { object-position: top; }
 .feature:hover .feature-media img { transform: scale(1.05); }
 
 .feature-body {
