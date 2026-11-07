@@ -11,7 +11,7 @@ Live: <https://portonoiree.netlify.app>
 Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tipografi besar, dan satu warna aksen yang agresif. Alasannya bukan sekadar gaya:
 
 - Mayoritas portofolio developer terlihat sama — gelap, gradient ungu-biru, kartu membulat. Gaya brutalist membuat halaman ini langsung dikenali.
-- Strukturnya sengaja dibuat sederhana: recruiter bisa menemukan nama, peran, CV, dan lima proyek dalam beberapa detik.
+- Strukturnya sengaja dibuat sederhana: recruiter bisa menemukan nama, peran, CV, dan enam proyek dalam beberapa detik.
 - Semua dekorasi tetap berfungsi: angka IPK dan jumlah test adalah bukti nyata, bukan angka karangan.
 
 ---
@@ -22,7 +22,7 @@ Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tip
 - Hero dengan status ketersediaan kerja dan tombol unduh CV.
 - Statistik singkat: IPK, jumlah automated test, jumlah proyek, fokus teknologi.
 - Tentang: ringkasan pengalaman + riwayat kerja dan pendidikan.
-- Proyek: dua proyek besar (IT Ticketing System dan Klinik Sehat Lestari) dan tiga proyek pendukung, semuanya tertaut ke demo atau repo.
+- Proyek: tiga proyek besar (IT Ticketing System, Klinik Sehat Lestari, dan Cendekia Lingua) dan tiga proyek pendukung, semuanya tertaut ke demo atau repo.
 - Kontak: email (klik untuk salin), WhatsApp, dan GitHub.
 
 **Interaksi & animasi**
@@ -75,6 +75,7 @@ Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tip
 └── img/projects/               # screenshot proyek
     ├── ticketing-card.jpg
     ├── klinik-card.jpg
+    ├── cendekia-card.jpg
     ├── screentime-card.jpg
     ├── komore-card.jpg
     ├── aqw-home.jpg
