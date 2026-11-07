@@ -11,7 +11,7 @@ Live: <https://portonoiree.netlify.app>
 Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tipografi besar, dan satu warna aksen yang agresif. Alasannya bukan sekadar gaya:
 
 - Mayoritas portofolio developer terlihat sama — gelap, gradient ungu-biru, kartu membulat. Gaya brutalist membuat halaman ini langsung dikenali.
-- Strukturnya sengaja dibuat sederhana: recruiter bisa menemukan nama, peran, CV, dan empat proyek dalam beberapa detik.
+- Strukturnya sengaja dibuat sederhana: recruiter bisa menemukan nama, peran, CV, dan lima proyek dalam beberapa detik.
 - Semua dekorasi tetap berfungsi: angka IPK dan jumlah test adalah bukti nyata, bukan angka karangan.
 
 ---
@@ -22,7 +22,7 @@ Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tip
 - Hero dengan status ketersediaan kerja dan tombol unduh CV.
 - Statistik singkat: IPK, jumlah automated test, jumlah proyek, fokus teknologi.
 - Tentang: ringkasan pengalaman + riwayat kerja dan pendidikan.
-- Proyek: satu proyek utama (IT Ticketing System) dan tiga proyek pendukung, semuanya tertaut ke demo atau repo.
+- Proyek: dua proyek besar (IT Ticketing System dan Klinik Sehat Lestari) dan tiga proyek pendukung, semuanya tertaut ke demo atau repo.
 - Kontak: email (klik untuk salin), WhatsApp, dan GitHub.
 
 **Interaksi & animasi**
@@ -74,6 +74,7 @@ Portofolio ini memakai gaya **neo-brutalist**: border tebal, bayangan keras, tip
 │   └── Tegar_Raditya_CV.pdf
 └── img/projects/               # screenshot proyek
     ├── ticketing-card.jpg
+    ├── klinik-card.jpg
     ├── screentime-card.jpg
     ├── komore-card.jpg
     ├── aqw-home.jpg
@@ -104,7 +105,7 @@ Lalu buka <http://127.0.0.1:8000>.
 
 **Ganti CV** — timpa file di `assets/` dan sesuaikan `href` pada tombol "Unduh CV" di `index.html`.
 
-**Tambah proyek** — duplikasi satu blok `<a class="card">` di dalam `.proj-grid`. Tambahkan `data-tilt` kalau ingin efek miring.
+**Tambah proyek** — duplikasi `<a class="feature">` untuk kartu besar, atau `<a class="card">` di dalam `.proj-grid` untuk kartu kecil. Tambahkan `data-tilt` kalau ingin efek miring.
 
 **Ubah warna** — semua warna ada di `:root` pada `styles.css` (`--paper`, `--ink`, `--orange`, `--lime`).
 
