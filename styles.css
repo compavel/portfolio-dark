@@ -674,6 +674,26 @@ h2 {
 .feature:hover .go .arrow,
 .card:hover .go .arrow { transform: translateX(4px); }
 
+.proj-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 26px 0 14px;
+}
+.proj-label .mono {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+.proj-rule {
+  flex: 1;
+  height: 2px;
+  background: var(--ink);
+  opacity: .18;
+}
+
 .proj-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
